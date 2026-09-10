@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="StudyPulse — track your syllabus, focus sessions, deadlines and study streak. Create a free account and study smarter." />
+<meta name="theme-color" content="#4f46e5" />
+<title>StudyPulse — Study Smarter, Not Longer</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/landing.css">
+
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('sp:theme');
+      if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body class="landing">
+
+<div class="aurora" aria-hidden="true">
+  <span class="aurora-blob b1"></span>
+  <span class="aurora-blob b2"></span>
+  <span class="aurora-blob b3"></span>
+  <span class="aurora-grid"></span>
+</div>
+
+<header class="nav" id="nav">
+  <div class="shell nav-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-name">StudyPulse</span>
+        <span class="brand-tag">Focus &amp; Progress Hub</span>
+      </span>
+    </a>
+
+    <nav class="nav-links" aria-label="Main">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#security">Security</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+      <button class="btn btn-ghost btn-sm" data-auth="signin">Sign in</button>
+      <button class="btn btn-primary btn-sm" data-auth="signup">Get started</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero shell">
+    <div class="hero-copy">
+      <span class="hero-eyebrow">
+        <span class="dot"></span> Free · No credit card · Works offline
+      </span>
+
+      <h1 class="hero-title">
+        Study smarter,<br>
+        <span class="grad">not longer.</span>
+      </h1>
+
+      <p class="hero-sub">
+        StudyPulse turns a scattered syllabus into a clear plan — track every topic,
+        run focused Pomodoro sprints, never miss a deadline, and watch your streak grow.
+        One account, your data, on any device.
+      </p>
+
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-lg" data-auth="signup">
+          Create free account
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <button class="btn btn-outline btn-lg" data-auth="signin">I already have one</button>
+      </div>
+
+      <ul class="hero-points">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Private per-account data</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Hashed passwords</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Export &amp; import anytime</li>
+      </ul>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="mock">
+        <div class="mock-bar">
+          <span class="mock-dots"><i></i><i></i><i></i></span>
+          <span class="mock-title">StudyPulse</span>
+          <span class="mock-avatar">AK</span>
+        </div>
+        <div class="mock-body">
+          <div class="mock-greet">
+            <div>
+              <strong>Good evening, Alex</strong>
+              <small>5-day streak · keep it alive 🔥</small>
+            </div>
+            <span class="mock-cta">Start 25m</span>
+          </div>
+          <div class="mock-kpis">
+            <div class="mock-kpi"><small>Syllabus</small><strong>68%</strong><span style="--w:68%;--c:#6366f1"></span></div>
+            <div class="mock-kpi"><small>This week</small><strong>14.5h</strong><span style="--w:72%;--c:#8b5cf6"></span></div>
+            <div class="mock-kpi"><small>Deadlines</small><strong>3</strong><span style="--w:40%;--c:#f59e0b"></span></div>
+          </div>
+          <div class="mock-list">
+            <div class="mock-row"><i style="background:#6366f1"></i><span>Algorithms — Dynamic Programming</span><em>72%</em></div>
+            <div class="mock-row"><i style="background:#06b6d4"></i><span>Linear Algebra — Eigenvalues</span><em>75%</em></div>
+            <div class="mock-row"><i style="background:#10b981"></i><span>Cellular Biology — Krebs Cycle</span><em>50%</em></div>
+            <div class="mock-row"><i style="background:#f59e0b"></i><span>World History — Cold War</span><em>33%</em></div>
+          </div>
+        </div>
+      </div>
+      <div class="mock-glow"></div>
+    </div>
+  </section>
+
+  <section class="stats shell">
+    <div class="stat"><strong>5</strong><span>Study modules</span></div>
+    <div class="stat"><strong>0</strong><span>Server costs</span></div>
+    <div class="stat"><strong>100%</strong><span>Your data, portable</span></div>
+    <div class="stat"><strong>∞</strong><span>Subjects &amp; topics</span></div>
+  </section>
+
+  <section class="section shell" id="features">
+    <header class="section-head">
+      <span class="eyebrow">Everything in one place</span>
+      <h2>Built for the way students actually study</h2>
+      <p>Five focused modules that replace the sticky notes, spreadsheets and five different apps.</p>
+    </header>
+
+    <div class="features">
+      <article class="feature">
+        <span class="feature-icon" style="--c:#6366f1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        </span>
+        <h3>Dashboard</h3>
+        <p>One glance tells you your syllabus completion, weekly hours, next deadline and current streak.</p>
+      </article>
+
+      <article class="feature">
+        <span class="feature-icon" style="--c:#06b6d4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </span>
+        <h3>Subjects &amp; syllabus</h3>
+        <p>Break every course into checkable topics. Watch progress bars fill up as you tick them off.</p>
+      </article>
+
+      <article class="feature">
+        <span class="feature-icon" style="--c:#8b5cf6">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg>
+        </span>
+        <h3>Focus Pomodoro</h3>
+        <p>25/5/15-minute cycles with an animated ring, chime alert, and automatic session logging.</p>
+      </article>
+
+      <article class="feature">
+        <span class="feature-icon" style="--c:#f59e0b">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg>
+        </span>
+        <h3>Tasks &amp; exams</h3>
+        <p>Exams, assignments, quizzes and projects with priorities, due dates, search and filters.</p>
+      </article>
+
+      <article class="feature">
+        <span class="feature-icon" style="--c:#10b981">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+        </span>
+        <h3>Analytics</h3>
+        <p>Weekly bar chart, subject time-share doughnut, and a full session log you can export as JSON.</p>
+      </article>
+
+      <article class="feature">
+        <span class="feature-icon" style="--c:#ef4444">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </span>
+        <h3>Real accounts</h3>
+        <p>PBKDF2-hashed passwords, per-user private data, sessions with expiry, profile settings.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section shell" id="how">
+    <header class="section-head">
+      <span class="eyebrow">Three steps</span>
+      <h2>Up and running in under a minute</h2>
+    </header>
+
+    <ol class="steps">
+      <li>
+        <span class="step-num">1</span>
+        <h3>Create your account</h3>
+        <p>Pick a name, email and password. Your password is hashed with PBKDF2-SHA256 before it ever touches storage.</p>
+      </li>
+      <li>
+        <span class="step-num">2</span>
+        <h3>Add your subjects</h3>
+        <p>Give each course a colour and a weekly hour target, then list the chapters you need to cover.</p>
+      </li>
+      <li>
+        <span class="step-num">3</span>
+        <h3>Start a focus sprint</h3>
+        <p>Pick a subject, hit start, and every completed Pomodoro is logged to your analytics automatically.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="section shell" id="security">
+    <div class="security-card">
+      <div class="security-copy">
+        <span class="eyebrow">Under the hood</span>
+        <h2>Your password is never stored</h2>
+        <p>
+          When you sign up, StudyPulse generates a random 16-byte salt and runs your
+          password through <strong>PBKDF2-SHA256 with 150,000 iterations</strong>.
+          Only the resulting hash is saved. Signing in re-derives the hash and compares
+          it in constant time.
+        </p>
+        <p class="security-note">
+          This is a fully client-side account system — perfect for personal use,
+          classroom machines and static hosting. If you need cross-device sync,
+          swap the <code>Auth</code> object for Firebase or Supabase.
+        </p>
+      </div>
+      <ul class="security-list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Salted per user</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 150,000 iterations</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Constant-time compare</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Session expiry</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Isolated per-user data</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta shell">
+    <div class="cta-inner">
+      <h2>Ready to make this semester count?</h2>
+      <p>Free forever. No sign-up email required. Just pick a password.</p>
+      <button class="btn btn-primary btn-lg" data-auth="signup">Create your account</button>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="shell footer-inner">
+    <span class="brand small">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </span>
+      <span class="brand-name">StudyPulse</span>
+    </span>
+    <p>Built as a static site — no backend, no tracking, no ads.</p>
+  </div>
+</footer>
+
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="modal-panel auth-panel">
+
+    <button class="modal-close auth-close" id="authClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+
+    <aside class="auth-aside">
+      <div class="auth-aside-inner">
+        <span class="brand-mark lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </span>
+        <h2>Welcome to StudyPulse</h2>
+        <p>Your syllabus, focus sessions and deadlines — organised, private and portable.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Unlimited subjects &amp; topics</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Pomodoro with auto-logging</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Charts &amp; JSON export</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Dark mode included</li>
+        </ul>
+      </div>
+    </aside>
+
+    <div class="auth-main">
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab active" data-tab="signin" role="tab" aria-selected="true">Sign in</button>
+        <button class="auth-tab" data-tab="signup" role="tab" aria-selected="false">Create account</button>
+      </div>
+
+      <form class="auth-form" id="signinForm" data-panel="signin" novalidate>
+        <h3 id="authTitle" class="auth-heading">Welcome back</h3>
+        <p class="auth-sub">Sign in to pick up where you left off.</p>
+
+        <div class="field" id="si-email-field">
+          <label for="si-email">Email address</label>
+          <input class="input" type="email" id="si-email" name="email" autocomplete="email"
+                 placeholder="you@university.edu" required>
+          <span class="field-error" data-err></span>
+        </div>
+
+        <div class="field" id="si-pw-field">
+          <label for="si-pw">Password</label>
+          <div class="input-group">
+            <input class="input" type="password" id="si-pw" name="password"
+                   autocomplete="current-password" placeholder="Your password" required>
+            <button type="button" class="toggle-visibility" data-toggle="si-pw" aria-label="Show password">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <span class="field-error" data-err></span>
+        </div>
+
+        <div class="auth-row">
+          <label class="checkbox-row">
+            <input type="checkbox" id="si-remember" checked>
+            <span>Keep me signed in</span>
+          </label>
+          <button type="button" class="link" id="forgotLink">Forgot password?</button>
+        </div>
+
+        <div class="form-alert" id="si-alert" role="alert"></div>
+
+        <button class="btn btn-primary btn-block btn-lg" type="submit" id="si-submit">Sign in</button>
+
+        <p class="auth-switch">
+          New here? <button type="button" class="link" data-goto="signup">Create an account</button>
+        </p>
+      </form>
+
+      <form class="auth-form hidden" id="signupForm" data-panel="signup" novalidate>
+        <h3 class="auth-heading">Create your account</h3>
+        <p class="auth-sub">Takes about ten seconds. No email confirmation needed.</p>
+
+        <div class="field" id="su-name-field">
+          <label for="su-name">Full name</label>
+          <input class="input" type="text" id="su-name" name="name" autocomplete="name"
+                 placeholder="Alex Karim" required>
+          <span class="field-error" data-err></span>
+        </div>
+
+        <div class="field" id="su-email-field">
+          <label for="su-email">Email address</label>
+          <input class="input" type="email" id="su-email" name="email" autocomplete="email"
+                 placeholder="you@university.edu" required>
+          <span class="field-error" data-err></span>
+        </div>
+
+        <div class="field" id="su-pw-field">
+          <label for="su-pw">Password</label>
+          <div class="input-group">
+            <input class="input" type="password" id="su-pw" name="password"
+                   autocomplete="new-password" placeholder="At least 8 characters" required>
+            <button type="button" class="toggle-visibility" data-toggle="su-pw" aria-label="Show password">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="strength" id="pwStrength" data-score="0">
+            <span class="strength-bar"></span><span class="strength-bar"></span>
+            <span class="strength-bar"></span><span class="strength-bar"></span>
+          </div>
+          <span class="strength-label" id="pwStrengthLabel">Use 8+ characters with a mix of letters, numbers &amp; symbols.</span>
+          <span class="field-error" data-err></span>
+        </div>
+
+        <div class="field" id="su-pw2-field">
+          <label for="su-pw2">Confirm password</label>
+          <input class="input" type="password" id="su-pw2" name="confirm"
+                 autocomplete="new-password" placeholder="Repeat your password" required>
+          <span class="field-error" data-err></span>
+        </div>
+
+        <label class="checkbox-row auth-terms">
+          <input type="checkbox" id="su-terms">
+          <span>I understand my data is stored locally in this browser and I can export it anytime.</span>
+        </label>
+
+        <div class="form-alert" id="su-alert" role="alert"></div>
+
+        <button class="btn btn-primary btn-block btn-lg" type="submit" id="su-submit">Create account</button>
+
+        <p class="auth-switch">
+          Already registered? <button type="button" class="link" data-goto="signin">Sign in</button>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="toastHost" aria-live="polite"></div>
+
+<script src="js/crypto.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/landing.js"></script>
+</body>
+</html>

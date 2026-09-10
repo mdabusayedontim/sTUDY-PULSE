@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#4f46e5" />
+<title>Dashboard — StudyPulse</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/app.css">
+
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('sp:theme');
+      if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+
+<script src="js/crypto.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  (function () {
+    var user = Auth.requireAuth('index.html');
+    if (user) window.__SP_USER__ = user;
+  })();
+</script>
+</head>
+
+<body class="app">
+
+<header class="app-header">
+  <div class="app-shell app-header-inner">
+
+    <a class="app-brand" href="app.html">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+      </span>
+      <span class="app-brand-name">StudyPulse</span>
+    </a>
+
+    <div class="header-tools">
+      <span class="stat-chip streak" title="Days in a row with study activity">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-1 .5-2 1-3-2 1-5 4-5 8a8 8 0 0 0 16 0c0-5-8-13-8-13z"/></svg>
+        <span id="chipStreak">0</span>
+        <span class="hide-sm">day streak</span>
+      </span>
+
+      <span class="stat-chip hours" title="Hours logged in the last 7 days">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span id="chipHours">0</span> hrs
+      </span>
+
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+
+      <button class="btn btn-primary btn-sm" id="quickAddBtn">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        <span class="hide-sm">New</span>
+      </button>
+
+      <div class="user-menu">
+        <button class="user-trigger" id="userTrigger" aria-haspopup="menu" aria-expanded="false">
+          <span class="avatar" id="headerAvatar">?</span>
+          <span class="user-name" id="headerUserName">Account</span>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+
+        <div class="user-dropdown" id="userDropdown" role="menu">
+          <div class="user-dropdown-head">
+            <span class="avatar lg" id="menuAvatar">?</span>
+            <div style="min-width:0">
+              <strong id="menuUserName">Account</strong>
+              <small id="menuUserEmail">—</small>
+            </div>
+          </div>
+          <button class="menu-item" id="menuProfile" role="menuitem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            Profile settings
+          </button>
+          <button class="menu-item" id="menuExport" role="menuitem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/></svg>
+            Export my data
+          </button>
+          <button class="menu-item" id="menuReseed" role="menuitem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
+            Load demo data
+          </button>
+          <div class="menu-sep"></div>
+          <button class="menu-item danger" id="menuSignout" role="menuitem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg>
+            Sign out
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-shell">
+    <nav class="tabbar" role="tablist">
+      <button class="tab active" data-view="dashboard" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Dashboard
+      </button>
+      <button class="tab" data-view="subjects" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Subjects
+      </button>
+      <button class="tab" data-view="pomodoro" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg>
+        Focus
+      </button>
+      <button class="tab" data-view="tasks" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg>
+        Tasks &amp; Exams
+      </button>
+      <button class="tab" data-view="analytics" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+        Analytics
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main class="app-main">
+  <div class="app-shell">
+
+    <section class="view active" id="view-dashboard">
+
+      <div class="banner">
+        <span class="banner-eyebrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6.3 6.3 4.9 4.9M19.1 19.1l-1.4-1.4M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/><circle cx="12" cy="12" r="4"/></svg>
+          <span id="bannerTag">Exam season readiness</span>
+        </span>
+        <h1 id="bannerGreeting">Welcome back!</h1>
+        <p id="bannerQuote">"Success is the sum of small efforts, repeated day in and day out."</p>
+        <div class="banner-actions">
+          <button class="btn btn-light" id="bannerStartFocus">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Start 25m focus
+          </button>
+          <button class="btn btn-ghost-light" id="bannerAddTopic">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            Check off a topic
+          </button>
+        </div>
+      </div>
+
+      <div class="kpi-grid" id="kpiGrid"></div>
+
+      <div class="grid-3">
+        <div class="card card-pad">
+          <div class="card-head">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              Subject mastery
+            </div>
+            <button class="link" data-goto="subjects">View all</button>
+          </div>
+          <div class="subject-grid" id="dashboardSubjects"></div>
+        </div>
+
+        <div class="card card-pad" style="display:flex;flex-direction:column">
+          <div class="card-head">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
+              Priority deadlines
+            </div>
+            <button class="link" data-goto="tasks">Manage</button>
+          </div>
+          <div id="dashboardTasks" style="flex:1;overflow-y:auto;max-height:300px"></div>
+          <button class="btn btn-outline btn-sm btn-block" style="margin-top:14px" data-modal="taskModal">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            Add assignment / exam
+          </button>
+        </div>
+      </div>
+
+      <div class="card card-pad">
+        <div class="card-head">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Recent study log
+          </div>
+          <button class="link" data-goto="analytics">Full analytics</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data">
+            <thead>
+              <tr><th>Subject</th><th>When</th><th>Duration</th><th>Notes</th></tr>
+            </thead>
+            <tbody id="dashboardSessions"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-subjects">
+      <div class="section-bar">
+        <div>
+          <h2>Subjects &amp; syllabus</h2>
+          <p>Break each course into topics and tick them off as you go.</p>
+        </div>
+        <button class="btn btn-primary" data-modal="subjectModal">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          Add subject
+        </button>
+      </div>
+
+      <div class="chips" id="subjectChips"></div>
+      <div class="grid-2" id="subjectsContainer"></div>
+    </section>
+
+    <section class="view" id="view-pomodoro">
+      <div class="pomodoro-wrap">
+        <div class="timer-card">
+          <div class="mode-switch">
+            <button class="mode-btn active" data-mode="work">Focus · 25m</button>
+            <button class="mode-btn" data-mode="shortBreak">Short break · 5m</button>
+            <button class="mode-btn" data-mode="longBreak">Long break · 15m</button>
+          </div>
+
+          <div class="timer-subject">
+            <label for="timerSubject">Log session to</label>
+            <select class="select" id="timerSubject"></select>
+          </div>
+
+          <div class="timer-ring" id="timerRing">
+            <svg viewBox="0 0 100 100">
+              <circle class="track" cx="50" cy="50" r="44" stroke-width="5" fill="none"/>
+              <circle class="bar" id="timerBar" cx="50" cy="50" r="44" stroke-width="5"
+                      fill="none" stroke-linecap="round"
+                      stroke-dasharray="276.46" stroke-dashoffset="0"/>
+            </svg>
+            <div class="timer-face">
+              <span class="timer-display" id="timerDisplay">25:00</span>
+              <span class="timer-status" id="timerStatus">Ready to learn</span>
+            </div>
+          </div>
+
+          <div class="timer-controls">
+            <button class="timer-btn-icon" id="timerReset" title="Reset timer">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg>
+            </button>
+
+            <button class="timer-btn-main" id="timerToggle">
+              <svg id="timerToggleIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <span id="timerToggleLabel">Start session</span>
+            </button>
+
+            <button class="timer-btn-icon" id="timerSound" title="Toggle chime">
+              <svg id="soundIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg>
+            </button>
+          </div>
+
+          <p class="timer-tip">Press <strong>Space</strong> to start or pause. Completed focus sessions are logged automatically.</p>
+        </div>
+
+        <div class="stat-trio">
+          <div><small>Sessions today</small><strong id="todayCount">0</strong></div>
+          <div><small>Focus minutes today</small><strong id="todayMinutes">0</strong></div>
+          <div><small>Current streak</small><strong id="todayStreak">0 days</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-tasks">
+      <div class="section-bar">
+        <div>
+          <h2>Tasks &amp; exam deadlines</h2>
+          <p>Everything due, sorted by urgency.</p>
+        </div>
+        <button class="btn btn-primary" data-modal="taskModal">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          Add task or exam
+        </button>
+      </div>
+
+      <div class="filter-bar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input class="input" type="text" id="taskSearch" placeholder="Search tasks, exams, homework…">
+        </div>
+        <select class="select" id="taskStatusFilter" style="width:auto;min-width:150px">
+          <option value="all">All statuses</option>
+          <option value="pending">Pending only</option>
+          <option value="completed">Completed</option>
+        </select>
+        <select class="select" id="taskTypeFilter" style="width:auto;min-width:150px">
+          <option value="all">All types</option>
+          <option value="Exam">Exams</option>
+          <option value="Assignment">Assignments</option>
+          <option value="Quiz">Quizzes</option>
+          <option value="Project">Projects</option>
+        </select>
+      </div>
+
+      <div class="card" style="overflow:hidden">
+        <div class="card-head" style="padding:16px 20px;margin:0;border-bottom:1px solid var(--border)">
+          <span class="fw-600 text-sm" id="tasksCount">0 items</span>
+          <span class="text-xs text-muted">Sorted by due date</span>
+        </div>
+        <div id="tasksList"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-analytics">
+      <div class="section-bar">
+        <div>
+          <h2>Study analytics</h2>
+          <p>Where your hours actually went.</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-ghost btn-sm" id="exportBtn">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/></svg>
+            Export
+          </button>
+          <label class="btn btn-ghost btn-sm" style="cursor:pointer">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5M12 3v12"/></svg>
+            Import
+            <input type="file" id="importInput" accept=".json,application/json" hidden>
+          </label>
+        </div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="card card-pad">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Weekly study distribution</div>
+              <div class="card-sub">Hours logged per day, last 7 days</div>
+            </div>
+            <span class="pill pill-success" id="weekDelta">—</span>
+          </div>
+          <div class="chart-box"><canvas id="weeklyChart"></canvas></div>
+        </div>
+
+        <div class="card card-pad">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Subject time share</div>
+              <div class="card-sub">Minutes per subject</div>
+            </div>
+          </div>
+          <div class="chart-box doughnut"><canvas id="subjectChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="card card-pad">
+        <div class="card-head">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Complete session log
+          </div>
+          <button class="link" data-modal="logModal">+ Manual entry</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data">
+            <thead>
+              <tr><th>Date</th><th>Subject</th><th>Duration</th><th>Notes</th><th></th></tr>
+            </thead>
+            <tbody id="analyticsSessions"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div class="modal" id="subjectModal">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <div><h3>Add a subject</h3><p>Give it a colour and a weekly hour target.</p></div>
+      <button class="modal-close" data-close><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <form id="subjectForm">
+      <div class="field">
+        <label for="subjectName">Subject name *</label>
+        <input class="input" id="subjectName" required placeholder="e.g. Organic Chemistry">
+      </div>
+      <div class="grid-2" style="gap:12px">
+        <div class="field">
+          <label for="subjectHours">Weekly goal (hours)</label>
+          <input class="input" type="number" id="subjectHours" min="1" max="100" value="5">
+        </div>
+        <div class="field">
+          <label for="subjectColor">Accent colour</label>
+          <select class="select" id="subjectColor">
+            <option value="#6366f1">Indigo</option>
+            <option value="#8b5cf6">Violet</option>
+            <option value="#06b6d4">Cyan</option>
+            <option value="#10b981">Emerald</option>
+            <option value="#f59e0b">Amber</option>
+            <option value="#ef4444">Red</option>
+            <option value="#ec4899">Pink</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="subjectNotes">Instructor / notes</label>
+        <input class="input" id="subjectNotes" placeholder="e.g. Prof. Alan — Room 302">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary">Save subject</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="topicModal">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <div><h3>Add a topic</h3><p>One chapter, one concept, one lecture.</p></div>
+      <button class="modal-close" data-close><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <form id="topicForm">
+      <div class="field">
+        <label for="topicSubject">Subject *</label>
+        <select class="select" id="topicSubject" required></select>
+      </div>
+      <div class="field">
+        <label for="topicTitle">Topic title *</label>
+        <input class="input" id="topicTitle" required placeholder="e.g. Chapter 4 — Dynamic Programming">
+      </div>
+      <div class="field">
+        <label for="topicDone">Status</label>
+        <select class="select" id="topicDone">
+          <option value="no">Not started</option>
+          <option value="yes">Already completed</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary">Add topic</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="taskModal">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <div><h3>Add a deadline</h3><p>Exam, assignment, quiz or project.</p></div>
+      <button class="modal-close" data-close><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <form id="taskForm">
+      <div class="field">
+        <label for="taskTitle">Title *</label>
+        <input class="input" id="taskTitle" required placeholder="e.g. Midterm examination">
+      </div>
+      <div class="grid-2" style="gap:12px">
+        <div class="field">
+          <label for="taskSubject">Subject *</label>
+          <select class="select" id="taskSubject" required></select>
+        </div>
+        <div class="field">
+          <label for="taskType">Type</label>
+          <select class="select" id="taskType">
+            <option value="Exam">Exam</option>
+            <option value="Assignment" selected>Assignment</option>
+            <option value="Quiz">Quiz</option>
+            <option value="Project">Project</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2" style="gap:12px">
+        <div class="field">
+          <label for="taskDue">Due date *</label>
+          <input class="input" type="date" id="taskDue" required>
+        </div>
+        <div class="field">
+          <label for="taskPriority">Priority</label>
+          <select class="select" id="taskPriority">
+            <option value="High">High</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary">Save deadline</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="logModal">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <div><h3>Log a study session</h3><p>Forgot to start the timer? Add it manually.</p></div>
+      <button class="modal-close" data-close><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <form id="logForm">
+      <div class="field">
+        <label for="logSubject">Subject *</label>
+        <select class="select" id="logSubject" required></select>
+      </div>
+      <div class="grid-2" style="gap:12px">
+        <div class="field">
+          <label for="logMinutes">Duration (minutes) *</label>
+          <input class="input" type="number" id="logMinutes" min="1" max="600" value="45" required>
+        </div>
+        <div class="field">
+          <label for="logDate">Date</label>
+          <input class="input" type="date" id="logDate">
+        </div>
+      </div>
+      <div class="field">
+        <label for="logNotes">What did you cover?</label>
+        <input class="input" id="logNotes" placeholder="e.g. Read chapter 5, solved exercises">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary">Log session</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="profileModal">
+  <div class="modal-panel wide">
+    <div class="modal-head">
+      <div><h3>Profile settings</h3><p>Update your details or change your password.</p></div>
+      <button class="modal-close" data-close><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+
+    <div class="profile-head">
+      <span class="avatar lg" id="profileAvatar">?</span>
+      <div style="min-width:0">
+        <strong id="profileName">—</strong>
+        <div class="text-xs text-muted" id="profileEmail">—</div>
+        <div class="text-xs text-muted" id="profileSince"></div>
+      </div>
+    </div>
+
+    <form id="profileForm">
+      <div class="field">
+        <label for="profileNameInput">Display name</label>
+        <input class="input" id="profileNameInput">
+      </div>
+      <div class="field">
+        <label>Avatar colour</label>
+        <div class="color-row" id="colorRow"></div>
+      </div>
+      <div class="modal-actions" style="border:0;padding-top:0;margin-top:8px">
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+
+    <div style="border-top:1px solid var(--border);margin:22px 0 0;padding-top:22px">
+      <h4 style="font-size:14.5px;font-weight:700;margin-bottom:4px">Change password</h4>
+      <p class="text-xs text-muted" style="margin-bottom:14px">You'll stay signed in on this device.</p>
+      <form id="passwordForm">
+        <div class="field">
+          <label for="pwCurrent">Current password</label>
+          <input class="input" type="password" id="pwCurrent" autocomplete="current-password" required>
+        </div>
+        <div class="grid-2" style="gap:12px">
+          <div class="field">
+            <label for="pwNext">New password</label>
+            <input class="input" type="password" id="pwNext" autocomplete="new-password" required>
+          </div>
+          <div class="field">
+            <label for="pwConfirm">Confirm new password</label>
+            <input class="input" type="password" id="pwConfirm" autocomplete="new-password" required>
+          </div>
+        </div>
+        <div class="form-alert" id="pwAlert" style="display:none"></div>
+        <div class="modal-actions" style="border:0;padding-top:0;margin-top:8px">
+          <button type="submit" class="btn btn-ghost">Update password</button>
+        </div>
+      </form>
+    </div>
+
+    <div style="border-top:1px solid var(--border);margin:22px 0 0;padding-top:22px">
+      <h4 style="font-size:14.5px;font-weight:700;margin-bottom:4px;color:var(--danger)">Delete account</h4>
+      <p class="text-xs text-muted" style="margin-bottom:14px">
+        This permanently removes your account and every subject, task and session in it. Cannot be undone.
+      </p>
+      <button class="btn btn-danger btn-sm" id="deleteAccountBtn">Delete my account</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="confirmModal">
+  <div class="modal-panel" style="max-width:400px">
+    <div class="modal-head">
+      <div><h3 id="confirmTitle">Are you sure?</h3><p id="confirmMessage">This cannot be undone.</p></div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+      <button type="button" class="btn btn-danger" id="confirmOk">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div id="toastHost" aria-live="polite"></div>
+
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
